@@ -9,6 +9,19 @@ const getProducts = async (req, res) => {
    }
 };
 
+const getProductWithId = async (req, res) => {
+   try {
+      const product = await Product.findById(req.params.id);
+      if (product) {
+         res.json(product);
+      } else {
+         res.status(404).json({ message: "Product does not exist." });
+      }
+   } catch (error) {
+      res.status(500).json({ message: "Error while getting the product." });
+   }
+};
+
 const createProduct = async (req, res) => {
    const { name, price, alcoholPercentage, type, manufacturer } = req.body;
    try {
@@ -26,4 +39,4 @@ const createProduct = async (req, res) => {
    }
 };
 
-module.exports = { getProducts, createProduct };
+module.exports = { getProducts, getProductWithId, createProduct };
