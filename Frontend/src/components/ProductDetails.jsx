@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
+import { fetchProductDetails } from "../api/api";
 
 const ProductDetails = () => {
    const { id } = useParams();
-   console.log("Product ID:", id);
    const [product, setProduct] = useState(null);
 
    useEffect(() => {
       const getProduct = async () => {
          try {
-            const response = await axios.get(
-               `http://localhost:5001/api/products/${id}`
-            );
-            console.log(response.data);
-            //console.log("Fetching product with id:", id);
-            setProduct(response.data);
+            const data = await fetchProductDetails(id);
+            setProduct(data);
          } catch (error) {
             console.error("Error while trying to get the products: ", error);
          }
@@ -28,7 +23,7 @@ const ProductDetails = () => {
    return (
       <div>
          <h1>{product.name}</h1>
-         <p> Vrsta piva: {product.type}</p>
+         <p>Vrsta piva: {product.type}</p>
       </div>
    );
 };
